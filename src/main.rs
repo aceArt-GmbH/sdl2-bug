@@ -1,6 +1,4 @@
-use sdl2::pixels::Color;
 use sdl2::rect::Rect;
-use std::time::Duration;
 
 fn main() {
     let sdl_context = sdl2::init().unwrap();
@@ -8,9 +6,6 @@ fn main() {
 
     let window = video_subsystem
         .window("repro", 800, 600)
-        .position_centered()
-        .resizable()
-        .opengl()
         .build()
         .map_err(|e| e.to_string())
         .unwrap();
@@ -20,18 +15,9 @@ fn main() {
         .map_err(|e| e.to_string())
         .unwrap();
 
-    canvas.clear();
+    let before = canvas.viewport();
     canvas.set_viewport(Rect::new(0, 0, 800, 600)); // <--
+    let after = canvas.viewport();
 
-    canvas.set_draw_color(Color {
-        r: 255,
-        g: 0,
-        b: 0,
-        a: 255,
-    });
-    let _ = canvas.fill_rect(Rect::new(0, 0, 100, 100));
-
-    canvas.present();
-
-    ::std::thread::sleep(Duration::new(0, 3_000_000_000_u32));
+    assert_eq!(before, after);
 }

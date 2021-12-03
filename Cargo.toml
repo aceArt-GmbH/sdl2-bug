@@ -6,12 +6,9 @@ edition = "2018"
 description = "repro"
 
 [dependencies.sdl2]
-version = "0.32.2"
+version = "0.35.1"
 default-features = false
 features = []
-
-[profile.dev]
-codegen-units = 20
 
 [profile.release]
 lto = true # <-
